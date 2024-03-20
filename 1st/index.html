@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Picker</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // ColorPicker Component
+    function ColorPicker() {
+      const [color, setColor] = React.useState('');
+      const [error, setError] = React.useState('');
+
+      const handleChange = (event) => {
+        const inputValue = event.target.value.trim();
+        if (/^#[0-9A-F]{6}$/i.test(inputValue)) {
+          setColor(inputValue);
+          setError('');
+        } else {
+          setColor('');
+          setError('Invalid color code');
+        }
+      };
+
+      return (
+        <div>
+          <input 
+            type="text" 
+            placeholder="Enter color code (e.g., #FFFFFF)" 
+            value={color} 
+            onChange={handleChange} 
+          />
+          <div 
+            style={{ 
+              width: '100px', 
+              height: '100px', 
+              backgroundColor: color, 
+              marginTop: '10px' 
+            }}
+          ></div>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </div>
+      );
+    }
+
+    // Rendering ColorPicker component
+    ReactDOM.render(
+      <ColorPicker />,
+      document.getElementById('root')
+    );
+  </script>
+</body>
+</html>
